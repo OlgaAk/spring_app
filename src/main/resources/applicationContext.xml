@@ -10,26 +10,7 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+    <context:component-scan base-package="io.github.olgaak.springapp"/>
 
-    <bean id="classicalMusic"
-          class="io.github.olgaak.springapp.ClassicalMusic"
-          factory-method="getClassicalMusic">
-    </bean>
-    <bean id="rockMusic"
-          class="io.github.olgaak.springapp.RockMusic"/>
-
-    <util:list id="musicList" value-type="io.github.olgaak.springapp.Music">
-        <ref bean="classicalMusic"/>
-        <ref bean="rockMusic"/>
-    </util:list>
-
-    <bean id="musicPlayer"
-          class="io.github.olgaak.springapp.MusicPlayer"
-          init-method="doMyInit"
-          destroy-method="doMyDestroy">
-        <property name="musicList" ref="musicList"/>
-        <property name="volume" value="${musicPlayer.volume}"/>
-    </bean>
 
 </beans>

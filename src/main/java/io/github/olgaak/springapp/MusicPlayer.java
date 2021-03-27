@@ -11,24 +11,23 @@ import java.util.Random;
 
 @Component
 public class MusicPlayer {
-    @Autowired
-    private Music classicalMusic;
-
-    @Autowired
-    private Music rockMusic;
+//    @Autowired
+//    private Music classicalMusic;
+//
+//    @Autowired
+//    private Music rockMusic;
 
     private List<Music> musicList;
 
     @Value("${musicPlayer.volume}")
     private int volume;
 
-//    @Autowired
-//    public MusicPlayer( Music music){
-//        this.music = music;
-//    }
+    public MusicPlayer(List<Music> music) {
+        this.musicList = music;
+    }
 
     @PostConstruct
-    public void doMyInit(){
+    public void doMyInit() {
         System.out.println("Initializing player");
     }
 
@@ -40,19 +39,22 @@ public class MusicPlayer {
         this.volume = volume;
     }
 
-    public void playMusic(MusicGenre genre) {
-        Music selectedMusic;
-        switch (genre) {
-            case CLASSICAL:
-                selectedMusic = classicalMusic;
-                break;
-            case ROCK:
-                selectedMusic = rockMusic;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + genre);
-        }
-        playSong(selectedMusic);
+    public void playMusic() {
+//        Music selectedMusic;
+//        switch (genre) {
+//            case CLASSICAL:
+//                selectedMusic = classicalMusic;
+//                break;
+//            case ROCK:
+//                selectedMusic = rockMusic;
+//                break;
+//            default:
+//                throw new IllegalStateException("Unexpected value: " + genre);
+//        }
+        int index = getRandomInt(musicList.size());
+        playSong(musicList.get(index));
+
+
     }
 
 
@@ -61,11 +63,16 @@ public class MusicPlayer {
     }
 
     public void playSong(Music selectedMusic) {
-        Random random = new Random();
+
         if (selectedMusic != null) {
             List<String> musicList = selectedMusic.getSong();
-            int index = random.nextInt(musicList.size());
+            int index = getRandomInt(musicList.size());
             System.out.println("Playing " + musicList.get(index));
         }
+    }
+
+    private int getRandomInt(int limit) {
+        Random random = new Random();
+        return random.nextInt(limit);
     }
 }

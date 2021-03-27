@@ -10,7 +10,7 @@ public class TestSpring {
 //                "applicationContext.xml");
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
         MusicPlayer player = context.getBean("musicPlayer", MusicPlayer.class);
-        player.playMusic(MusicGenre.CLASSICAL);
+        player.playMusic();
         System.out.println(player.getVolume());
         context.close();
     }

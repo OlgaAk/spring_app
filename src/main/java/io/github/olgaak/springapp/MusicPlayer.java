@@ -5,12 +5,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class MusicPlayer {
     @Autowired
-    @Qualifier("classicalMusic")
-    private Music music;
+    private Music classicalMusic;
+
+    @Autowired
+    private Music rockMusic;
+
     private List<Music> musicList;
     private int volume;
 
@@ -28,17 +32,32 @@ public class MusicPlayer {
         this.volume = volume;
     }
 
-    public void playMusic() {
-        for (Music music : musicList) {
-            System.out.println("Playing " + music.getSong());
+    public void playMusic(MusicGenre genre) {
+        Music selectedMusic;
+        switch (genre) {
+            case CLASSICAL:
+                selectedMusic = classicalMusic;
+                break;
+            case ROCK:
+                selectedMusic = rockMusic;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + genre);
         }
+        playSong(selectedMusic);
     }
+
 
     public int getVolume() {
         return volume;
     }
 
-    public void playSong() {
-        System.out.println("Playing " + music.getSong());
+    public void playSong(Music selectedMusic) {
+        Random random = new Random();
+        if (selectedMusic != null) {
+            List<String> musicList = selectedMusic.getSong();
+            int index = random.nextInt(musicList.size());
+            System.out.println("Playing " + musicList.get(index));
+        }
     }
 }

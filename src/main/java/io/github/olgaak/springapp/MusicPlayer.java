@@ -2,8 +2,10 @@ package io.github.olgaak.springapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Random;
 
@@ -16,6 +18,8 @@ public class MusicPlayer {
     private Music rockMusic;
 
     private List<Music> musicList;
+
+    @Value("${musicPlayer.volume}")
     private int volume;
 
 //    @Autowired
@@ -23,6 +27,10 @@ public class MusicPlayer {
 //        this.music = music;
 //    }
 
+    @PostConstruct
+    public void doMyInit(){
+        System.out.println("Initializing player");
+    }
 
     public void setMusicList(List<Music> musicList) {
         this.musicList = musicList;
